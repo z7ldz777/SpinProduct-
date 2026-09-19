@@ -2,18 +2,10 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 // ─── Constants ──────────────────────────────────────────────────────
 const PALETTE = [
-  { name: 'Snow', value: '#FFFFFF' },
-  { name: 'Pearl', value: '#F5F0EB' },
-  { name: 'Blush', value: '#FFD6E0' },
-  { name: 'Lavender', value: '#C8B6FF' },
-  { name: 'Sky', value: '#A2D2FF' },
-  { name: 'Mint', value: '#B8F3D0' },
-  { name: 'Butter', value: '#FFF3B0' },
-  { name: 'Peach', value: '#FFCBA4' },
-  { name: 'Coral', value: '#FF8A80' },
-  { name: 'Slate', value: '#64748B' },
-  { name: 'Charcoal', value: '#334155' },
-  { name: 'Midnight', value: '#0F172A' },
+  { name: 'Black', value: '#000000' },
+  { name: 'Blue', value: '#0F6292' },
+  { name: 'Green', value: '#16FF00' },
+  { name: 'Yellow', value: '#FFED00' },
 ]
 
 const SPEEDS = { slow: 4000, medium: 2000, fast: 1000 }
@@ -224,8 +216,8 @@ export default function App() {
   const [backImage, setBackImage] = useState(null)
   const [frontImg, setFrontImg] = useState(null)
   const [backImg, setBackImg] = useState(null)
-  const [bgColor, setBgColor] = useState('#0F172A')
-  const [customColor, setCustomColor] = useState('#8B5CF6')
+  const [bgColor, setBgColor] = useState('#0F6292')
+const [customColor, setCustomColor] = useState('#16FF00')
   const [speed, setSpeed] = useState('medium')
   const [direction, setDirection] = useState('right')
   const [playing, setPlaying] = useState(true)
@@ -343,7 +335,7 @@ export default function App() {
   // ─── Reset ────────────────────────────────────────────────────────
   const handleReset = useCallback(() => {
     setFrontImage(null); setBackImage(null); setFrontImg(null); setBackImg(null)
-    setBgColor('#0F172A'); setSpeed('medium'); setDirection('right'); setPlaying(true)
+    setBgColor('#0F6292'); setSpeed('medium'); setDirection('right'); setPlaying(true)
     setRecording(false); setVideoUrl(null); setVideoBlob(null); setShowAiVideo(false)
     setGenError(''); setGenerating(false); setGenProgress(''); setGenPercent(0)
     framesRef.current = []; frameIndexRef.current = 0
@@ -570,7 +562,7 @@ export default function App() {
   const mutedText = darkMode ? 'text-white/70' : 'text-gray-600'
 
   return (
-    <div className={`min-h-screen ${theme} transition-colors duration-500 relative overflow-x-hidden`}>
+  <div className={`spinshot-app min-h-screen ${theme} transition-colors duration-500 relative overflow-x-hidden`}>
       <div className="fixed inset-0 pointer-events-none opacity-[0.03]"
         style={{ backgroundImage: `radial-gradient(circle at 1px 1px, ${darkMode ? 'white' : 'black'} 1px, transparent 0)`, backgroundSize: '32px 32px' }} />
       <div className="fixed top-0 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.07] pointer-events-none"
@@ -926,12 +918,109 @@ export default function App() {
       </div>
 
       <Toast message={toastMsg} visible={toastVisible} onHide={() => setToastVisible(false)} />
-      <style>{`
-        @keyframes gradient-shift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-      `}</style>
+     <style>{`
+  :root {
+    --black: #000000;
+    --blue: #0F6292;
+    --green: #16FF00;
+    --yellow: #FFED00;
+  }
+
+  .spinshot-app {
+    background:
+      radial-gradient(circle at 15% 10%, rgba(15, 98, 146, .35), transparent 30%),
+      radial-gradient(circle at 85% 20%, rgba(22, 255, 0, .12), transparent 25%),
+      radial-gradient(circle at 50% 100%, rgba(255, 237, 0, .1), transparent 35%),
+      var(--black);
+  }
+
+  .spinshot-app::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .16;
+    background-image:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+
+  .spinshot-app section {
+    animation: rise-in .65s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  .spinshot-app button {
+    transition:
+      transform .25s ease,
+      box-shadow .25s ease,
+      background-color .25s ease;
+  }
+
+  .spinshot-app button:hover {
+    transform: translateY(-2px);
+  }
+
+  .spinshot-app button:active {
+    transform: scale(.97);
+  }
+
+  .spinshot-app .bg-gradient-to-br,
+  .spinshot-app .bg-gradient-to-r {
+    background-image: linear-gradient(135deg, var(--blue), var(--green)) !important;
+  }
+
+  .spinshot-app .bg-violet-500 {
+    background-color: var(--blue) !important;
+  }
+
+  .spinshot-app .text-violet-400,
+  .spinshot-app .text-violet-300 {
+    color: var(--green) !important;
+  }
+
+  .spinshot-app canvas,
+  .spinshot-app video {
+    filter: saturate(1.12) contrast(1.05);
+  }
+
+  .spinshot-app .rounded-3xl {
+    box-shadow:
+      0 0 30px rgba(15, 98, 146, .2),
+      0 0 70px rgba(22, 255, 0, .08);
+    animation: glow 4s ease-in-out infinite;
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 25px rgba(15, 98, 146, .2);
+    }
+    50% {
+      box-shadow: 0 0 45px rgba(22, 255, 0, .25);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinshot-app *,
+    .spinshot-app *::before,
+    .spinshot-app *::after {
+      animation-duration: .01ms !important;
+      transition-duration: .01ms !important;
+    }
+  }
+`}</style>
     </div>
   )
 }
@@ -950,7 +1039,7 @@ function encodeGif(width, height, frames) {
   for (const frame of frames) {
     write(0x21); write(0xf9); write(4); write(0); writeShort(Math.round(frame.delay/10)); write(0); write(0)
     write(0x2c); writeShort(0); writeShort(0); writeShort(width); writeShort(height); write(0)
-    const pixels = quantizeFrame(frame.data, palette)
+    const pixels = quantizeFrame(frame.data)
     write(8); const compressed = lzwEncode(pixels, 8)
     let off = 0
     while (off < compressed.length) { const bs = Math.min(255, compressed.length - off); write(bs); for (let i = 0; i < bs; i++) write(compressed[off+i]); off += bs }
@@ -964,7 +1053,7 @@ function buildPalette() {
     if (idx >= 256) break; p[idx*3]=Math.round(r*255/5); p[idx*3+1]=Math.round(g*255/6); p[idx*3+2]=Math.round(b*255/5); idx++
   }; return p
 }
-function quantizeFrame(imageData, palette) {
+function quantizeFrame(imageData) {
   const pixels = new Uint8Array(imageData.width*imageData.height), d = imageData.data
   for (let i = 0; i < pixels.length; i++) pixels[i] = Math.min(Math.round(d[i*4]*5/255)*42 + Math.round(d[i*4+1]*6/255)*6 + Math.round(d[i*4+2]*5/255), 255)
   return pixels
