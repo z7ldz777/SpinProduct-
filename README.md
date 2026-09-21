@@ -1,6 +1,6 @@
-# SpinShot
+# SpinProduct
 
-SpinShot is a browser-based product content tool that turns front and back product photos into a rotating product showcase. It is designed for clothing, merchandise, accessories, and other products that benefit from a simple 360-degree visual preview.
+SpinProduct is a browser-based product content tool that turns front and back product photos into a rotating product showcase. It is designed for clothing, merchandise, accessories, and other products that benefit from a simple 360-degree visual preview.
 
 The app provides an instant, local canvas preview and browser-based exports. It also includes an optional AI enhancement that uses Google Gemini Veo to generate a more realistic product spin video from the uploaded images.
 
